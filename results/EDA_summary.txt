@@ -1,0 +1,33 @@
+EDA SUMMARY
+============
+Raw rows: 225745
+Raw columns: 79
+Exact duplicate rows: 2633
+Clean rows: 223112
+DDoS: 128016 (57.377%)
+BENIGN: 95096 (42.623%)
+Infinite numeric values: 64
+Missing cells after inf->NaN: 68
+Constant numeric features removed: 10
+
+Top mutual-information features (training-only strict evaluation):
+1. Total Length of Fwd Packets: 0.650983
+2. Subflow Fwd Bytes: 0.650596
+3. Average Packet Size: 0.557954
+4. Total Length of Bwd Packets: 0.543725
+5. Subflow Bwd Bytes: 0.543318
+6. Avg Bwd Segment Size: 0.543123
+7. Bwd Packet Length Mean: 0.541829
+8. Fwd Header Length: 0.536855
+9. Fwd Header Length.1: 0.536249
+10. Destination Port: 0.534852
+11. Bwd Packet Length Max: 0.527479
+12. Init_Win_bytes_forward: 0.491406
+13. Avg Fwd Segment Size: 0.488855
+14. Fwd Packet Length Mean: 0.487913
+15. Fwd Packet Length Max: 0.485077
+16. Bwd Header Length: 0.478212
+17. Fwd IAT Max: 0.435703
+18. Fwd IAT Total: 0.433817
+19. Fwd IAT Mean: 0.431640
+20. Init_Win_bytes_backward: 0.402290

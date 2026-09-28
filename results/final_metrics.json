@@ -1,0 +1,13 @@
+{
+  "Accuracy": 0.9999551790596567,
+  "Precision": 1.0,
+  "Recall": 0.9999218841542007,
+  "F1": 0.9999609405515194,
+  "ROC_AUC": 0.999980220496114,
+  "TN": 19019,
+  "FP": 0,
+  "FN": 2,
+  "TP": 25601,
+  "Model": "Tuned XGBoost",
+  "Evaluation": "5-fold StratifiedGroupKFold, fold 0 holdout; groups are identical cleaned numeric feature vectors"
+}

@@ -1,0 +1,31 @@
+,importance
+Avg Fwd Segment Size,0.7202106
+Total Length of Fwd Packets,0.2665001
+Fwd Packet Length Max,0.004235143
+Avg Bwd Segment Size,0.0022475559
+Bwd Header Length,0.002024446
+Destination Port,0.0010883027
+Init_Win_bytes_backward,0.00062486314
+Init_Win_bytes_forward,0.0004711587
+Bwd Packet Length Max,0.00039239225
+act_data_pkt_fwd,0.0003395177
+Fwd IAT Max,0.00025952305
+Fwd Header Length,0.00021293151
+Fwd IAT Std,0.00019382326
+Average Packet Size,0.00018714646
+Fwd IAT Total,0.00016892253
+Packet Length Mean,0.00016645041
+Fwd IAT Mean,0.00016371482
+Total Length of Bwd Packets,0.00014199324
+Total Fwd Packets,0.00011289181
+Bwd IAT Total,9.529829e-05
+Fwd Packet Length Std,9.235679e-05
+Bwd IAT Max,3.8090468e-05
+Packet Length Variance,3.2887572e-05
+Fwd Packet Length Mean,0.0
+Bwd Packet Length Mean,0.0
+Subflow Bwd Bytes,0.0
+Subflow Fwd Bytes,0.0
+Fwd Header Length.1,0.0
+Subflow Fwd Packets,0.0
+Packet Length Std,0.0

@@ -1,0 +1,272 @@
+{
+  "Subflow Fwd Bytes": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 11613.0,
+    "max": 183012.0,
+    "median_overall": 30.0,
+    "median_benign": 70.0,
+    "median_ddos": 26.0
+  },
+  "Total Length of Fwd Packets": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 11613.0,
+    "max": 183012.0,
+    "median_overall": 30.0,
+    "median_benign": 70.0,
+    "median_ddos": 26.0
+  },
+  "Average Packet Size": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 1661.857143,
+    "max": 2528.0,
+    "median_overall": 154.0,
+    "median_benign": 78.5,
+    "median_ddos": 897.6153846
+  },
+  "Total Length of Bwd Packets": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 17855.67999999982,
+    "max": 5172346.0,
+    "median_overall": 164.0,
+    "median_benign": 62.0,
+    "median_ddos": 11601.0
+  },
+  "Subflow Bwd Bytes": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 17855.67999999982,
+    "max": 5172346.0,
+    "median_overall": 164.0,
+    "median_benign": 62.0,
+    "median_ddos": 11601.0
+  },
+  "Bwd Packet Length Mean": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 2901.75,
+    "max": 5800.5,
+    "median_overall": 93.0,
+    "median_benign": 13.0,
+    "median_ddos": 1934.5
+  },
+  "Avg Bwd Segment Size": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 2901.75,
+    "max": 5800.5,
+    "median_overall": 93.0,
+    "median_benign": 13.0,
+    "median_ddos": 1934.5
+  },
+  "Destination Port": {
+    "min": 0.0,
+    "p1": 53.0,
+    "p99": 63833.7999999997,
+    "max": 65532.0,
+    "median_overall": 80.0,
+    "median_benign": 443.0,
+    "median_ddos": 80.0
+  },
+  "Fwd Header Length.1": {
+    "min": 0.0,
+    "p1": 20.0,
+    "p99": 712.0,
+    "max": 39396.0,
+    "median_overall": 72.0,
+    "median_benign": 64.0,
+    "median_ddos": 80.0
+  },
+  "Fwd Header Length": {
+    "min": 0.0,
+    "p1": 20.0,
+    "p99": 712.0,
+    "max": 39396.0,
+    "median_overall": 72.0,
+    "median_benign": 64.0,
+    "median_ddos": 80.0
+  },
+  "Bwd Packet Length Max": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 11595.0,
+    "max": 11680.0,
+    "median_overall": 100.0,
+    "median_benign": 20.0,
+    "median_ddos": 5755.0
+  },
+  "Init_Win_bytes_forward": {
+    "min": -1.0,
+    "p1": -1.0,
+    "p99": 30228.0,
+    "max": 65535.0,
+    "median_overall": 256.0,
+    "median_benign": 229.0,
+    "median_ddos": 256.0
+  },
+  "Fwd Packet Length Mean": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 2321.4,
+    "max": 3867.0,
+    "median_overall": 8.666666667,
+    "median_benign": 38.65719697,
+    "median_ddos": 7.0
+  },
+  "Avg Fwd Segment Size": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 2321.4,
+    "max": 3867.0,
+    "median_overall": 8.666666667,
+    "median_benign": 38.65719697,
+    "median_ddos": 7.0
+  },
+  "Fwd Packet Length Max": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 10135.0,
+    "max": 11680.0,
+    "median_overall": 20.0,
+    "median_benign": 42.0,
+    "median_ddos": 20.0
+  },
+  "Bwd Header Length": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 744.0,
+    "max": 58852.0,
+    "median_overall": 92.0,
+    "median_benign": 64.0,
+    "median_ddos": 92.0
+  },
+  "Fwd IAT Max": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 96800000.0,
+    "max": 120000000.0,
+    "median_overall": 24179.0,
+    "median_benign": 4.0,
+    "median_ddos": 1762970.0
+  },
+  "Fwd IAT Total": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 116000000.0,
+    "max": 120000000.0,
+    "median_overall": 25011.0,
+    "median_benign": 4.0,
+    "median_ddos": 1764891.5
+  },
+  "Fwd IAT Mean": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 20300000.0,
+    "max": 120000000.0,
+    "median_overall": 10948.5,
+    "median_benign": 4.0,
+    "median_ddos": 490552.29165
+  },
+  "Init_Win_bytes_backward": {
+    "min": -1.0,
+    "p1": -1.0,
+    "p99": 17496.0,
+    "max": 65535.0,
+    "median_overall": 154.0,
+    "median_benign": 0.0,
+    "median_ddos": 229.0
+  },
+  "Total Fwd Packets": {
+    "min": 1.0,
+    "p1": 1.0,
+    "p99": 27.0,
+    "max": 1932.0,
+    "median_overall": 3.0,
+    "median_benign": 2.0,
+    "median_ddos": 4.0
+  },
+  "Subflow Fwd Packets": {
+    "min": 1.0,
+    "p1": 1.0,
+    "p99": 27.0,
+    "max": 1932.0,
+    "median_overall": 3.0,
+    "median_benign": 2.0,
+    "median_ddos": 4.0
+  },
+  "Fwd IAT Std": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 40888999.99999849,
+    "max": 76700000.0,
+    "median_overall": 13773.73299,
+    "median_benign": 0.0,
+    "median_ddos": 932416.5611
+  },
+  "Packet Length Mean": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 1454.125,
+    "max": 1936.833333,
+    "median_overall": 126.6125,
+    "median_benign": 61.72727273,
+    "median_ddos": 833.5
+  },
+  "act_data_pkt_fwd": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 22.0,
+    "max": 1931.0,
+    "median_overall": 2.0,
+    "median_benign": 1.0,
+    "median_ddos": 3.0
+  },
+  "Packet Length Variance": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 16800000.0,
+    "max": 22400000.0,
+    "median_overall": 52904.961995000005,
+    "median_benign": 1045.333333,
+    "median_ddos": 3625073.789
+  },
+  "Packet Length Std": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 4097.537534,
+    "max": 4731.522394,
+    "median_overall": 230.0107863,
+    "median_benign": 32.33161507,
+    "median_ddos": 1903.962654
+  },
+  "Bwd IAT Max": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 87800000.0,
+    "max": 120000000.0,
+    "median_overall": 36346.0,
+    "median_benign": 49.0,
+    "median_ddos": 67540.0
+  },
+  "Bwd IAT Total": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 111000000.0,
+    "max": 120000000.0,
+    "median_overall": 44745.0,
+    "median_benign": 49.0,
+    "median_ddos": 74751.0
+  },
+  "Fwd Packet Length Std": {
+    "min": 0.0,
+    "p1": 0.0,
+    "p99": 4059.461922,
+    "max": 6692.644993,
+    "median_overall": 5.30199124,
+    "median_benign": 0.0,
+    "median_ddos": 5.656854249
+  }
+}

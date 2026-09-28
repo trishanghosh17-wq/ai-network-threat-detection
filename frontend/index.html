@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DDoS Detection Console</title>
+<style>
+:root{--bg:#0b1220;--panel:#111a2e;--line:#22304d;--tx:#e2e8f0;--mut:#8a94a6;--ac:#38bdf8;--bad:#f43f5e;--ok:#22c55e;--warn:#f59e0b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px system-ui,sans-serif}
+header{display:flex;align-items:center;gap:24px;padding:12px 24px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:16px;margin:0}nav{display:flex;gap:4px;flex:1}
+nav button{background:none;border:0;color:var(--mut);padding:8px 14px;border-radius:6px;cursor:pointer;font:inherit}
+nav button.on{background:var(--bg);color:var(--ac)}main{padding:24px;max-width:1200px;margin:auto}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+.kpi b{display:block;font-size:26px;margin-top:4px}.mut{color:var(--mut)}
+button.pri{background:var(--ac);color:#04121f;border:0;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600}
+button.sec{background:none;border:1px solid var(--line);color:var(--tx);padding:7px 12px;border-radius:6px;cursor:pointer}
+input,select{background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%}
+label{display:block;font-size:12px;color:var(--mut)}.ff{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:500}
+.tag{padding:2px 8px;border-radius:99px;font-size:12px}.high{background:#5b1425;color:#fda4af}.medium{background:#5a3a08;color:#fcd34d}.none{background:#12351f;color:#86efac}
+.bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px}.bar i{display:block;height:10px;border-radius:3px}
+.bar span{width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.err{color:var(--bad);margin:8px 0}.warn{color:var(--warn);font-size:12px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+dialog{background:var(--panel);color:var(--tx);border:1px solid var(--line);border-radius:10px}
+</style></head><body>
+<header><h1>🛡️ DDoS Detection Console</h1><nav id="nav"></nav><span class="mut" id="ver"></span></header>
+<main id="main"></main>
+<dialog id="kd"><form method="dialog"><p>Enter your API key</p><input id="ki" type="password" autocomplete="off"><p><button class="pri">Save</button></p></form></dialog>
+<script>
+const $=s=>document.querySelector(s);
+const h=(t,a={},...k)=>{const e=document.createElement(t);for(const[x,v]of Object.entries(a))x==='on'?Object.entries(v).forEach(([n,f])=>e.addEventListener(n,f)):x==='class'?e.className=v:e.setAttribute(x,v);k.flat().forEach(c=>e.append(c instanceof Node?c:document.createTextNode(c??'')));return e};
+let KEY=sessionStorage.getItem('k')||'',INFO=null,PRE=null;
+const askKey=()=>new Promise(r=>{$('#kd').showModal();$('#kd').onclose=()=>{KEY=$('#ki').value.trim();sessionStorage.setItem('k',KEY);r()}});
+async function api(p,o={}){for(let t=0;t<2;t++){const r=await fetch(p,{...o,headers:{...(o.headers||{}),'X-API-Key':KEY}});
+ if(r.status===401){await askKey();continue}
+ if(!r.ok){const e=await r.json().catch(()=>({}));const d=e.detail;throw new Error(typeof d==='string'?d:d?.message?d.message+(d.missing?': '+d.missing.slice(0,5).join(', ')+(d.missing.length>5?'…':''):''):r.statusText)}
+ return r}throw new Error('Not authorised')}
+const J=async(p,o)=>(await api(p,o)).json(), pct=x=>(x*100).toFixed(2)+'%';
+const tag=s=>h('span',{class:'tag '+s},s==='none'?'clear':s);
+const views={
+async dash(el){const s=await J('/api/summary?hours=24');const c=(l,sv)=>s.totals.filter(r=>(!l||r.label===l)&&(!sv||r.severity===sv)).reduce((a,r)=>a+r.n,0);
+ const tot=c(),dd=c('DDoS'),hi=c(null,'high');
+ el.append(h('div',{class:'grid'},[['Flows scored (24h)',tot],['DDoS detected',dd],['High severity',hi],['DDoS share',tot?pct(dd/tot):'–']].map(([l,v])=>h('div',{class:'card kpi'},h('span',{class:'mut'},l),h('b',{},String(v))))));
+ const ts=[...new Set(s.series.map(r=>r.t))],mx=Math.max(1,...ts.map(t=>s.series.filter(r=>r.t===t).reduce((a,r)=>a+r.n,0)));
+ const W=800,H=160,bw=W/Math.max(ts.length,1);
+ const svg=ts.map((t,i)=>{let y=H;return['BENIGN','DDoS'].map(l=>{const n=(s.series.find(r=>r.t===t&&r.label===l)||{n:0}).n,ht=n/mx*(H-10);y-=ht;return`<rect x="${i*bw+2}" y="${y}" width="${Math.max(bw-4,1)}" height="${ht}" fill="${l==='DDoS'?'#f43f5e':'#38bdf8'}"><title>${new Date(t*1000).toLocaleString()} ${l}: ${n}</title></rect>`}).join('')}).join('');
+ const card=h('div',{class:'card'},h('b',{},'Detections over time (last 24h)'),ts.length?'':h('p',{class:'mut'},'No predictions yet. Use Analyze Flow or Batch Scan.'));
+ card.insertAdjacentHTML('beforeend',`<svg viewBox="0 0 ${W} ${H}" width="100%">${svg}</svg><div class="mut">■ <span style="color:#38bdf8">benign</span> ■ <span style="color:#f43f5e">DDoS</span></div>`);el.append(card)},
+async analyze(el){INFO=INFO||await J('/api/model');PRE=PRE||await J('/api/presets');const inp={};
+ const box=h('div',{class:'ff'},INFO.features.map(f=>{const s=INFO.feature_stats[f]||{};inp[f]=h('input',{type:'number',step:'any',value:s.median_overall??0});return h('div',{},h('label',{},f),inp[f])}));
+ const out=h('div',{}),sel=h('select',{},h('option',{value:''},'Load a real example…'),Object.keys(PRE).map(k=>h('option',{value:k},`${k} (${PRE[k].truth})`)));
+ sel.onchange=()=>{const p=PRE[sel.value];if(p)for(const f of INFO.features)inp[f].value=p.values[f]};
+ const run=async()=>{out.replaceChildren('Scoring…');try{const feats={};for(const f of INFO.features)feats[f]=parseFloat(inp[f].value);
+  const r=await J('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({features:feats,source:'console'})});
+  const mx=Math.max(...r.factors.map(x=>Math.abs(x.contribution)),1e-9);
+  out.replaceChildren(h('div',{class:'card'},h('div',{class:'row'},h('b',{style:'font-size:20px'},r.label),tag(r.severity),h('span',{class:'mut'},`DDoS probability ${pct(r.prob_ddos)} (alert threshold ${r.threshold})`)),
+   r.warnings.map(w=>h('div',{class:'warn'},'⚠ '+w)),h('p',{class:'mut'},'Why: exact per-feature contributions (log-odds). Red pushes toward DDoS, blue toward benign.'),
+   r.factors.map(x=>h('div',{class:'bar'},h('span',{title:x.feature},x.feature),h('i',{style:`width:${Math.abs(x.contribution)/mx*260}px;background:${x.contribution>0?'#f43f5e':'#38bdf8'}`}),x.contribution.toFixed(2)))))}catch(e){out.replaceChildren(h('div',{class:'err'},e.message))}};
+ el.append(h('div',{class:'card'},h('div',{class:'row'},sel,h('button',{class:'pri',on:{click:run}},'Analyze flow')),h('br'),box),out)},
+async batch(el){const f=h('input',{type:'file',accept:'.csv'}),out=h('div');
+ el.append(h('div',{class:'card'},h('p',{class:'mut'},'Upload a CSV of flow records (CIC-style columns). An optional Label column is used to report accuracy.'),h('div',{class:'row'},f,h('button',{class:'pri',on:{click:async()=>{
+  if(!f.files[0])return;out.replaceChildren('Scanning…');const fd=new FormData();fd.append('file',f.files[0]);
+  try{const r=await J('/api/predict/batch?source='+encodeURIComponent('csv:'+f.files[0].name.slice(0,50)),{method:'POST',body:fd});
+   out.replaceChildren(h('div',{class:'grid'},[['Rows',r.rows],['DDoS',r.ddos],['Benign',r.benign],['High severity',r.high_severity],['Invalid cells',r.invalid_cells]].map(([l,v])=>h('div',{class:'card kpi'},h('span',{class:'mut'},l),h('b',{},String(v))))),
+    r.vs_labels?h('div',{class:'card'},`Accuracy vs uploaded labels: ${pct(r.vs_labels.accuracy)} (TP ${r.vs_labels.tp}, FP ${r.vs_labels.fp}, FN ${r.vs_labels.fn}, TN ${r.vs_labels.tn})`):'',
+    h('div',{class:'card'},h('b',{},'Highest-risk rows'),h('table',{},h('tr',{},h('th',{},'CSV row'),h('th',{},'DDoS probability')),r.top_flagged.slice(0,25).map(x=>h('tr',{},h('td',{},String(x.row)),h('td',{},pct(x.prob_ddos)))))))}catch(e){out.replaceChildren(h('div',{class:'err'},e.message))}}}},'Scan file'))),out)},
+async alerts(el){const sev=h('select',{},['','high','medium','none'].map(v=>h('option',{value:v},v||'All severities'))),lab=h('select',{},['','DDoS','BENIGN'].map(v=>h('option',{value:v},v||'All labels'))),t=h('div');
+ const load=async()=>{const q=new URLSearchParams({limit:200});if(sev.value)q.set('severity',sev.value);if(lab.value)q.set('label',lab.value);const a=await J('/api/alerts?'+q);
+  t.replaceChildren(a.length?h('table',{},h('tr',{},['Time','Source','Label','Probability','Severity','Top driver'].map(x=>h('th',{},x))),a.map(r=>h('tr',{},h('td',{},new Date(r.ts*1000).toLocaleString()),h('td',{},r.source),h('td',{},r.label),h('td',{},pct(r.prob)),h('td',{},tag(r.severity)),h('td',{class:'mut'},r.factors[0]?.feature||'')))):h('p',{class:'mut'},'Nothing logged yet.'))};
+ sev.onchange=lab.onchange=load;
+ const exp=h('button',{class:'sec',on:{click:async()=>{const b=await(await api('/api/alerts.csv')).blob();const a=h('a',{href:URL.createObjectURL(b),download:'alerts.csv'});a.click()}}},'Export CSV');
+ el.append(h('div',{class:'card'},h('div',{class:'row'},sev,lab,exp),h('br'),t));await load()},
+async model(el){INFO=INFO||await J('/api/model');const m=INFO.holdout_metrics;
+ el.append(h('div',{class:'grid'},['Accuracy','Precision','Recall','F1','ROC_AUC'].map(k=>h('div',{class:'card kpi'},h('span',{class:'mut'},k),h('b',{},pct(m[k]))))),
+  h('div',{class:'card'},h('b',{},'Model card'),h('p',{},`Version ${INFO.version}. Alert threshold ${INFO.threshold}; high severity at ${INFO.high_severity}. ${INFO.features.length} input features.`),h('p',{class:'warn'},'⚠ '+INFO.limitations),h('p',{class:'mut'},m.Evaluation)))}};
+const tabs=[['dash','Dashboard'],['analyze','Analyze Flow'],['batch','Batch Scan'],['alerts','Alert Log'],['model','Model Card']];
+async function go(k){const el=$('#main');el.replaceChildren();[...$('#nav').children].forEach((b,i)=>b.classList.toggle('on',tabs[i][0]===k));try{await views[k](el)}catch(e){el.append(h('div',{class:'err'},e.message))}}
+$('#nav').append(...tabs.map(([k,l])=>h('button',{on:{click:()=>go(k)}},l)));
+go('dash');J('/api/model').then(i=>$('#ver').textContent='model '+i.version).catch(()=>{});
+</script></body></html>

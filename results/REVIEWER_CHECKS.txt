@@ -1,0 +1,41 @@
+REVIEWER CHECKS - NETWORK TRAFFIC CLASSIFICATION
+====================================================
+
+1) MULTI-ATTACK SCOPE
+----------------------
+The bundled project model is binary: BENIGN vs DDoS.
+The bundled source dataset is the DDoS-specific CICIDS2017 capture slice, so it does not contain labels for the other attack families.
+A genuine multi-class model requires merging the other CICIDS2017 attack files (e.g., FTP-Patator, SSH-Patator, DoS variants, Web attacks, Infiltration, Bot, PortScan, DDoS) and retraining with the original attack labels.
+
+The revised project documentation now states this explicitly and the training plan is described as multi-class-ready rather than claiming that the current binary model already classifies every attack type.
+
+2) 99.99% ACCURACY CHECK
+-------------------------
+Reported holdout: accuracy=99.995518%, precision=100.000000%, recall=99.992188%, F1=99.996094%, ROC-AUC=99.998022%.
+Confusion matrix: TN=19019, FP=0, FN=2, TP=25601 on 44,622 holdout flows.
+Recomputed accuracy from the confusion matrix: 0.9999551791 (99.995518%). The arithmetic is internally consistent.
+
+Why the number should still be treated cautiously:
+- The final score is one group-aware holdout from the same dataset/capture family, not an external contemporary network capture.
+- The source materials do not provide a timestamp/session/flow-ID field, so a true time-based or capture-session holdout cannot be established.
+- The tuning cross-validation score is also very high, so this is not just a display rounding error; the dataset is genuinely highly separable for this binary task.
+- Production performance should be reported only after independent external validation.
+
+Bundled 6,000-flow sample sanity check (5-fold stratified CV, not independent validation):
+    Feature set  Accuracy mean  Accuracy std  F1 mean   F1 std  ROC-AUC mean
+     Top 2 only       0.998500      0.000972 0.998500 0.000972      0.999772
+All 30 selected       0.999333      0.000624 0.999332 0.000625      0.999967
+
+3) WHY DO ONLY TWO FEATURES DOMINATE?
+-------------------------------------
+The final deployment model used 30 selected features. Native XGBoost importance assigns 98.67% of total importance to the top two features, leaving 1.33% across the remaining features.
+Several selected variables are exact redundant copies in the bundled EDA sample:
+- Total Length of Fwd Packets = Subflow Fwd Bytes
+- Subflow Bwd Bytes = Total Length of Bwd Packets
+- Avg Bwd Segment Size = Bwd Packet Length Mean
+- Fwd Header Length = Fwd Header Length.1
+- Avg Fwd Segment Size = Fwd Packet Length Mean
+- Subflow Fwd Packets = Total Fwd Packets
+This can concentrate tree-based importance in one member of a redundant pair while its duplicate receives little or zero importance. Mutual information shows that many additional traffic, timing, packet-length, port, and TCP-window features also carry signal.
+
+Reviewer-ready interpretation: the top two features are dominant signals for this dataset, but they are not the only inputs used by the model. The revised training guidance removes exact duplicate columns before feature selection when the raw data is available and recommends permutation/SHAP-style contribution analysis alongside native tree importance.

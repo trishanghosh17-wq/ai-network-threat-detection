@@ -1,0 +1,7 @@
+Duplicate feature,Matches
+Total Length of Fwd Packets,Subflow Fwd Bytes
+Subflow Bwd Bytes,Total Length of Bwd Packets
+Avg Bwd Segment Size,Bwd Packet Length Mean
+Fwd Header Length,Fwd Header Length.1
+Avg Fwd Segment Size,Fwd Packet Length Mean
+Subflow Fwd Packets,Total Fwd Packets

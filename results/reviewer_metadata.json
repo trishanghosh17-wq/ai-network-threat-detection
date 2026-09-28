@@ -1,0 +1,36 @@
+{
+  "project_title": "Network Traffic Classification & Attack Detection",
+  "bundled_model_scope": "BENIGN vs DDoS",
+  "multi_attack": "Requires combined CICIDS2017 attack files and retraining",
+  "reported_accuracy": 0.9999551790596567,
+  "accuracy_recomputed_from_confusion_matrix": 0.9999551790596567,
+  "holdout_rows": 44622,
+  "top2_native_importance_share": 0.9867107,
+  "exact_duplicate_feature_pairs_found_in_sample": [
+    [
+      "Total Length of Fwd Packets",
+      "Subflow Fwd Bytes"
+    ],
+    [
+      "Subflow Bwd Bytes",
+      "Total Length of Bwd Packets"
+    ],
+    [
+      "Avg Bwd Segment Size",
+      "Bwd Packet Length Mean"
+    ],
+    [
+      "Fwd Header Length",
+      "Fwd Header Length.1"
+    ],
+    [
+      "Avg Fwd Segment Size",
+      "Fwd Packet Length Mean"
+    ],
+    [
+      "Subflow Fwd Packets",
+      "Total Fwd Packets"
+    ]
+  ],
+  "external_validation_status": "Not performed from supplied ZIP; source lacks timestamp/session/flow-ID field"
+}
